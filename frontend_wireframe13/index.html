@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TitikTemu - Aplikasi Temuan Barang Hilang di Lingkungan Kampus</title>
+<link rel="icon" href="logo-icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- ========== MASUK & DAFTAR ========== -->
+<div id="auth" hidden>
+  <div class="auth-l"><img src="logo.png" alt="Logo TitikTemu"><p>Proyek PBL: Aplikasi Temuan Barang Hilang di Lingkungan Kampus<br>Politeknik Negeri Batam (Polibatam)</p></div>
+  <div class="auth-r"><div class="acard">
+    <p class="switch" id="sw"></p>
+    <form class="card pad" id="authMasuk" autocomplete="off">
+      <h1 class="h1s" id="aTitle">Masuk ke TitikTemu</h1><p class="muted">Gunakan email dan kata sandi untuk mengakses layanan barang hilang kampus.</p>
+      <div class="seg"><button type="button" class="on" data-role="user">👤 Pengguna</button><button type="button" data-role="admin">🛡 Admin</button></div>
+      <label>Email<input type="email" id="lEmail" required placeholder="nama@polibatam.ac.id"></label>
+      <label>Kata sandi<span class="pw"><input type="password" id="lPass" required placeholder="Masukkan kata sandi"><button type="button" data-eye>👁</button></span></label>
+      <div class="row"><label class="chk"><input type="checkbox" id="lRem"> Ingat saya</label><a class="link" href="#masuk" id="lupa">Lupa kata sandi?</a></div>
+      <button class="btn primary full">Masuk</button>
+      <p class="or"><span>atau masuk dengan</span></p>
+      <button type="button" class="btn outline full" id="google"><b>G</b>&nbsp; Lanjutkan dengan Google</button>
+      <small class="hint" id="hint"></small>
+    </form>
+    <form class="card pad" id="authDaftar" hidden autocomplete="off">
+      <h1 class="h1s">Buat akun TitikTemu</h1><p class="muted">Daftar sebagai pengguna untuk mulai melaporkan dan mencari barang di kampus.</p>
+      <label>Nama lengkap<input id="rNama" required placeholder="Nama Anda"></label>
+      <label>Email<input type="email" id="rEmail" required placeholder="nama@polibatam.ac.id"></label>
+      <label>Kata sandi<input type="password" id="rPass" required minlength="6" placeholder="Minimal 6 karakter"></label>
+      <label>Ulangi kata sandi<input type="password" id="rPass2" required placeholder="Ulangi kata sandi"></label>
+      <label class="chk"><input type="checkbox" id="rOk" required> Saya setuju data laporan saya diproses oleh petugas kampus.</label>
+      <button class="btn primary full">Daftar</button>
+      <p class="center muted sm2">Sudah punya akun? <a class="link" href="#masuk">Masuk</a></p>
+    </form>
+  </div></div>
+</div>
+
+<!-- ========== AREA PENGGUNA ========== -->
+<div id="public">
+  <header class="topbar">
+    <a href="#beranda" class="brand"><img class="logoimg" src="logo-icon.png" alt="TitikTemu"><span><b>TitikTemu</b><small>Temukan Kembali. Hubungkan Kembali.</small></span></a>
+    <nav>
+      <a href="#beranda" data-nav="beranda">Beranda</a>
+      <a href="#cari" data-nav="cari">Cari Barang</a>
+      <a href="#buat" data-nav="buat">Buat Laporan</a>
+      <a href="#dasbor" data-nav="admin">Halaman Pengelola</a>
+    </nav>
+    <div class="user"><span class="avatar">NH</span><span><b>Nafisa Husna</b><small>Mahasiswa</small></span><button class="btn outline sm" id="logout">Keluar</button></div>
+  </header>
+
+  <main>
+    <!-- BERANDA -->
+    <section class="page" id="p-beranda">
+      <div class="hero">
+        <div class="wrap hero-in">
+          <div>
+            <p class="eyebrow">LAYANAN BARANG HILANG KAMPUS</p>
+            <h1>Barang hilang bisa<br>kembali ke pemiliknya.</h1>
+            <p class="muted">Laporkan, temukan, dan hubungkan kembali barang berharga bersama komunitas kampus yang saling peduli.</p>
+            <div class="btns">
+              <a class="btn primary" href="#buat" data-jenis="Hilang">+ Laporkan Barang Hilang</a>
+              <a class="btn light" href="#buat" data-jenis="Ditemukan">Laporkan Barang Temuan</a>
+            </div>
+            <form class="searchbar" id="heroSearch"><input id="heroQ" placeholder="Cari nama barang, lokasi, atau kategori..."><button class="btn primary">Cari Sekarang</button></form>
+          </div>
+          <div class="orbit"><div class="pin">📍</div><div class="chip c1">📦 <span><b>Ransel ditemukan</b><small>Perpustakaan Pusat</small></span></div><div class="chip c2">✔ <span><b>Barang dikembalikan</b><small>Hari ini, 10.24</small></span></div></div>
+        </div>
+        <div class="wrap stats" id="heroStats"></div>
+      </div>
+      <div class="wrap section">
+        <div class="sec-head"><div><p class="eyebrow">LAPORAN TERBARU</p><h2>Mungkin barangmu ada di sini</h2></div><a href="#cari" class="link">Lihat semua laporan ›</a></div>
+        <div class="grid" id="latest"></div>
+      </div>
+      <div class="how"><div class="wrap how-in">
+        <div><p class="eyebrow light">CARA KERJA</p><h2>Tiga langkah sederhana</h2></div>
+        <div><span>01</span><b>Buat laporan</b><p>Ceritakan barang yang hilang atau kamu temukan.</p></div>
+        <div><span>02</span><b>Temukan kecocokan</b><p>Telusuri laporan atau tunggu pemberitahuan kecocokan.</p></div>
+        <div><span>03</span><b>Hubungkan kembali</b><p>Verifikasi kepemilikan dan atur pengembalian dengan aman.</p></div>
+      </div></div>
+    </section>
+
+    <!-- CARI BARANG -->
+    <section class="page" id="p-cari">
+      <div class="wrap section">
+        <div class="sec-head"><div><p class="eyebrow">PENCARIAN BARANG</p><h1 class="h1s">Temukan barangmu</h1><p class="muted">Telusuri seluruh laporan barang hilang dan temuan di lingkungan kampus.</p></div><a class="btn primary" href="#buat">+ Buat Laporan</a></div>
+        <div class="card filters">
+          <label>Cari berdasarkan nama barang<input id="fq" placeholder="Contoh: ransel, telepon genggam, kartu mahasiswa"></label>
+          <div class="f4">
+            <label>Kategori<select id="fk"></select></label>
+            <label>Lokasi<select id="fl"></select></label>
+            <label>Jenis laporan<select id="fj"><option value="">Semua laporan</option><option>Hilang</option><option>Ditemukan</option></select></label>
+            <label>Status<select id="fs"><option value="">Semua status</option><option>Aktif</option><option>Kemungkinan Cocok</option><option>Dikembalikan</option></select></label>
+          </div>
+        </div>
+        <div class="sec-head small"><b class="blue" id="count"></b><span class="muted">Diurutkan dari yang terbaru</span></div>
+        <div class="grid" id="results"></div>
+      </div>
+    </section>
+
+    <!-- BUAT LAPORAN -->
+    <section class="page" id="p-buat">
+      <div class="wrap narrow section">
+        <p class="eyebrow">LAPORAN BARU</p><h1 class="h1s">Laporkan sebuah barang</h1>
+        <p class="muted">Berikan informasi yang jelas agar barang lebih mudah dikenali dan dikembalikan.</p>
+        <form id="form">
+          <div class="card step"><div class="sl"><i>01</i><div><h3>Apa yang terjadi?</h3><small>Pilih jenis laporan yang akan dibuat.</small></div></div>
+            <div class="radios">
+              <label class="radio"><input type="radio" name="jenis" value="Hilang" checked><b>Barang Hilang</b><small>Saya sedang mencari barang</small></label>
+              <label class="radio"><input type="radio" name="jenis" value="Ditemukan"><b>Barang Ditemukan</b><small>Saya menemukan barang seseorang</small></label>
+            </div></div>
+          <div class="card step"><div class="sl"><i>02</i><div><h3>Rincian barang</h3><small>Isi informasi dasar mengenai barang.</small></div></div>
+            <div class="fields">
+              <label>Nama barang *<input name="nama" required placeholder="Contoh: Ransel hitam"></label>
+              <label>Kategori barang *<select name="kategori" id="bk" required></select></label>
+              <label>Tanggal kejadian *<input type="date" name="tgl" required></label>
+              <label>Lokasi di kampus *<select name="lokasi" id="bl" required></select></label>
+              <label class="full">Deskripsi barang *<textarea name="desk" required rows="4" placeholder="Jelaskan warna, merek, ciri khusus, dan lokasi terakhir barang terlihat atau ditemukan."></textarea><small>Jangan cantumkan informasi pribadi atau rahasia.</small></label>
+            </div></div>
+          <div class="card step"><div class="sl"><i>03</i><div><h3>Tambahkan foto</h3><small>Foto membantu proses pencocokan barang.</small></div></div>
+            <label class="drop" id="drop"><input type="file" id="foto" accept="image/png,image/jpeg" hidden><span id="dropTxt">⬆<br><b>Pilih foto atau seret ke area ini</b><small>PNG atau JPG, maksimal 5 MB</small></span></label></div>
+          <div class="card step"><div class="sl"><i>04</i><div><h3>Informasi kontak</h3><small>Digunakan untuk proses verifikasi.</small></div></div>
+            <div class="fields">
+              <label>Nama lengkap *<input required placeholder="Masukkan nama lengkap" value="Nafisa Husna"></label>
+              <label>Nomor mahasiswa *<input required placeholder="Contoh: 23104567"></label>
+              <label>Nomor telepon *<input required placeholder="Contoh: 0812 3456 7890"></label>
+              <label>Surel kampus *<input type="email" required placeholder="nama@polibatam.ac.id"></label>
+            </div></div>
+          <div class="formfoot"><p class="muted">🛡 <b>Data kamu terlindungi.</b><br>Informasi kontak hanya dapat dilihat oleh petugas.</p>
+            <div><button type="button" class="btn outline" id="draft">Simpan Draf</button> <button class="btn primary">Kirim Laporan ›</button></div></div>
+        </form>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ========== AREA PENGELOLA ========== -->
+<div id="admin" hidden>
+  <aside class="side">
+    <a href="#beranda" class="brand inv"><img class="logoimg" src="logo-icon.png" alt="TitikTemu"><span><b>TitikTemu</b><small>Temukan Kembali. Hubungkan Kembali.</small></span></a>
+    <div class="petugas"><span class="avatar l">SH</span><span><b>Syafira Husna</b><small>Petugas Kemahasiswaan</small></span></div>
+    <p class="menu-t">MENU UTAMA</p>
+    <a href="#dasbor" data-nav="dasbor">🏠 Dasbor</a>
+    <a href="#kelola" data-nav="kelola">☰ Kelola Status</a>
+    <a href="#rekap" data-nav="rekap">📊 Rekap Laporan</a>
+    <p class="menu-t">AKUN</p>
+    <a href="#beranda">› Kembali ke Beranda</a>
+    <a href="#masuk" id="logoutA">⎋ Keluar</a>
+    <div class="help"><b>🛡 Pusat Bantuan</b><small>Panduan pengelolaan laporan</small></div>
+  </aside>
+  <div class="amain">
+    <div class="atop"><input id="aq" placeholder="Cari nomor atau nama barang..."><span class="avatar">S</span></div>
+    <section class="page" id="p-dasbor"><div class="apad">
+      <p class="eyebrow" id="today"></p>
+      <div class="sec-head"><div><h1 class="h1s">Selamat pagi, <span id="gName">Syafira</span></h1><p class="muted">Berikut ringkasan aktivitas TitikTemu hari ini.</p></div><a class="btn primary" href="#kelola">Tinjau Laporan Baru</a></div>
+      <div class="stats4" id="dStats"></div>
+      <div class="twocol"><div class="card pad"><h3>Aktivitas laporan</h3><small class="muted">Jumlah laporan dalam enam bulan terakhir</small><div class="chart" id="dChart"></div><div class="legend"><i class="d1"></i>Barang Hilang <i class="d2"></i>Barang Ditemukan</div></div>
+      <div class="card pad"><h3>Kategori terbanyak</h3><small class="muted">Bulan Oktober 2026</small><div id="dCat"></div></div></div>
+    </div></section>
+    <section class="page" id="p-kelola"><div class="apad">
+      <p class="eyebrow">PENGELOLAAN LAPORAN</p><h1 class="h1s">Kelola status laporan</h1><p class="muted">Tinjau, verifikasi, dan perbarui perkembangan setiap laporan.</p>
+      <div class="card pad"><div class="trow"><input id="kq" placeholder="Cari nomor atau nama barang..."><select id="ks"><option value="">Semua status</option><option>Aktif</option><option>Kemungkinan Cocok</option><option>Dikembalikan</option></select><button class="btn outline" id="unduh">Unduh Data</button></div>
+      <small class="muted" id="kCount"></small>
+      <div class="scroll"><table><thead><tr><th>NOMOR</th><th>BARANG</th><th>JENIS</th><th>LOKASI & TANGGAL</th><th>STATUS</th><th>TINDAKAN</th></tr></thead><tbody id="kBody"></tbody></table></div></div>
+    </div></section>
+    <section class="page" id="p-rekap"><div class="apad">
+      <p class="eyebrow">RINGKASAN DATA</p>
+      <div class="sec-head"><div><h1 class="h1s">Rekap laporan</h1><p class="muted">Pantau perkembangan dan keberhasilan layanan barang hilang kampus.</p></div><div><select><option>Oktober 2026</option><option>September 2026</option></select> <button class="btn primary" onclick="toast('Rekap diunduh (simulasi)')">Unduh Rekap</button></div></div>
+      <div class="stats4" id="rStats"></div>
+      <div class="twocol"><div class="card pad"><h3>Perbandingan laporan bulanan</h3><small class="muted">Laporan hilang dan temuan sepanjang tahun 2026</small><div class="chart single" id="rChart"></div></div>
+      <div class="card pad center"><h3 class="left">Tingkat penyelesaian</h3><div class="big">66,7%</div><small class="blue">+4,2% dari bulan lalu</small><div class="bar"><div style="width:66.7%"></div></div>
+        <p class="lg"><span>● Dikembalikan</span><b>164</b></p><p class="lg"><span>● Dalam proses</span><b>52</b></p><p class="lg"><span>● Ditutup</span><b>32</b></p></div></div>
+      <div class="card pad"><h3>Ringkasan berdasarkan lokasi</h3><small class="muted">Lima lokasi dengan laporan terbanyak bulan ini</small>
+      <table><thead><tr><th>LOKASI</th><th>HILANG</th><th>DITEMUKAN</th><th>DIKEMBALIKAN</th><th>TINGKAT BERHASIL</th></tr></thead><tbody id="rLok"></tbody></table></div>
+    </div></section>
+  </div>
+</div>
+
+<div id="modal" class="modal" hidden><div class="mbox" id="mbox"></div></div>
+<div id="toast" class="toast" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>
